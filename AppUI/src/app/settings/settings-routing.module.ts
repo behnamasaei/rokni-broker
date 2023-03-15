@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { IndustrySettingComponent } from './industry-setting/industry-setting.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'industry', component: IndustrySettingComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

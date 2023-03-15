@@ -1,6 +1,10 @@
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
-<p-menubar [model]="menubar">
-  <button pButton label="Logout" icon="pi pi-power-off"></button>
-</p-menubar>
+<div class="container-fluid">
+  <p-menubar [model]="menubar">
+    <button pButton label="Logout" icon="pi pi-power-off"></button>
+  </p-menubar>
+  
+  <router-outlet></router-outlet>
 
-<router-outlet></router-outlet>
+</div>
