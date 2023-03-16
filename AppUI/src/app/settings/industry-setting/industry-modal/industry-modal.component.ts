@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IndustryService } from './industry.service';
+import { IndustryCreateUpdateDto } from 'src/app/Models/Industry';
 
 @Component({
   selector: 'app-industry-modal',
@@ -16,16 +17,16 @@ export class IndustryModalComponent implements OnInit {
   constructor(
     private config: DynamicDialogConfig,
     private service: IndustryService,
-    private ref: DynamicDialogRef,) {
+    private ref: DynamicDialogRef) {
   }
 
   ngOnInit(): void {
-    if(this.config.data){
+    if (this.config.data) {
       this.form = new FormGroup({
         id: new FormControl(this.config.data.id),
         name: new FormControl(this.config.data.name),
       })
-    }else{
+    } else {
       this.form = new FormGroup({
         id: new FormControl(''),
         name: new FormControl(''),
@@ -34,13 +35,17 @@ export class IndustryModalComponent implements OnInit {
   }
 
   save() {
+    let industry: IndustryCreateUpdateDto = {
+      id: this.form.get('id')?.value,
+      name: this.form.get('name')?.value,
+    }
     if (this.config.data) {
-      this.service.put(this.form.value).subscribe(res => {
+      this.service.put(industry, this.form.get('id')?.value).subscribe(res => {
         this.ref.close(res);
       });
     }
     else {
-      this.service.post(this.form.value).subscribe(res => {
+      this.service.post(industry).subscribe(res => {
         this.ref.close(res);
       });
     }

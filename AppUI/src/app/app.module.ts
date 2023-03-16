@@ -9,10 +9,12 @@ import { MenubarModule } from 'primeng/menubar';
 import { SharedModule } from './shared.module';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmationService } from 'primeng/api';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

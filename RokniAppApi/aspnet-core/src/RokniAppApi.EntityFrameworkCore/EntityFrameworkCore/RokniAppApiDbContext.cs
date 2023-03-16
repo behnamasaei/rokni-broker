@@ -93,7 +93,7 @@ public class RokniAppApiDbContext :
     {
       b.ToTable(RokniAppApiConsts.DbTablePrefix + "Industry", RokniAppApiConsts.DbSchema);
       b.ConfigureByConvention(); //auto configure for the base class props
-      b.HasMany(e => e.Stocks).WithOne().HasForeignKey(e => e.IndustryId).IsRequired();
+      b.HasMany(e => e.Stocks).WithOne(e => e.Industry).HasForeignKey(e => e.IndustryId).IsRequired();
     });
 
     builder.Entity<Stock>(b =>

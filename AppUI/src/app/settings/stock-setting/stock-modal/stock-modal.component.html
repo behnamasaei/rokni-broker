@@ -1,1 +1,65 @@
-<p>stock-modal works!</p>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">نام سهام</label>
+        <input type="text" class="form-control" formControlName="name">
+      </div>
+    </div>
+    <div class="col-12 col-md-6 align-self-center">
+      <p-dropdown [options]="industries" optionLabel="name" [filter]="true" filterBy="name" formControlName="industryId"></p-dropdown>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">لینک کدال</label>
+        <input type="text" class="form-control" formControlName="codalLink">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">لینک چارت ساز</label>
+        <input type="text" class="form-control" formControlName="chartsazLink">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">لینک تابلوخانی</label>
+        <input type="text" class="form-control" formControlName="tablokhaniLink">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">لینک tsetmc</label>
+        <input type="text" class="form-control" formControlName="tsetmcLink">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">لینک رهاورد</label>
+        <input type="text" class="form-control" formControlName="rahvardLink">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">لینک شاخص بان</label>
+        <input type="text" class="form-control" formControlName="shakhesbanLink">
+      </div>
+    </div>
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">ثبت</button>
+</form>

@@ -44,178 +44,183 @@ namespace RokniAppApi;
 )]
 public class RokniAppApiHttpApiHostModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
+  public override void PreConfigureServices(ServiceConfigurationContext context)
+  {
+    PreConfigure<OpenIddictBuilder>(builder =>
     {
-        PreConfigure<OpenIddictBuilder>(builder =>
-        {
-            builder.AddValidation(options =>
-            {
-                options.AddAudiences("RokniAppApi");
-                options.UseLocalServer();
-                options.UseAspNetCore();
-            });
+      builder.AddValidation(options =>
+          {
+          options.AddAudiences("RokniAppApi");
+          options.UseLocalServer();
+          options.UseAspNetCore();
         });
-    }
+    });
+  }
 
-    public override void ConfigureServices(ServiceConfigurationContext context)
+  public override void ConfigureServices(ServiceConfigurationContext context)
+  {
+    var configuration = context.Services.GetConfiguration();
+    var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+    ConfigureAuthentication(context);
+    ConfigureBundles();
+    ConfigureUrls(configuration);
+    ConfigureConventionalControllers();
+    ConfigureVirtualFileSystem(context);
+    ConfigureCors(context, configuration);
+    ConfigureSwaggerServices(context, configuration);
+
+    context.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
     {
-        var configuration = context.Services.GetConfiguration();
-        var hostingEnvironment = context.Services.GetHostingEnvironment();
+      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    });
+  }
 
-        ConfigureAuthentication(context);
-        ConfigureBundles();
-        ConfigureUrls(configuration);
-        ConfigureConventionalControllers();
-        ConfigureVirtualFileSystem(context);
-        ConfigureCors(context, configuration);
-        ConfigureSwaggerServices(context, configuration);
-    }
+  private void ConfigureAuthentication(ServiceConfigurationContext context)
+  {
+    context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+  }
 
-    private void ConfigureAuthentication(ServiceConfigurationContext context)
+  private void ConfigureBundles()
+  {
+    Configure<AbpBundlingOptions>(options =>
     {
-        context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
-    }
+      options.StyleBundles.Configure(
+              LeptonXLiteThemeBundles.Styles.Global,
+              bundle =>
+              {
+              bundle.AddFiles("/global-styles.css");
+            }
+          );
+    });
+  }
 
-    private void ConfigureBundles()
+  private void ConfigureUrls(IConfiguration configuration)
+  {
+    Configure<AppUrlOptions>(options =>
     {
-        Configure<AbpBundlingOptions>(options =>
+      options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+      options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"].Split(','));
+
+      options.Applications["Angular"].RootUrl = configuration["App:ClientUrl"];
+      options.Applications["Angular"].Urls[AccountUrlNames.PasswordReset] = "account/reset-password";
+    });
+  }
+
+  private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
+  {
+    var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+    if (hostingEnvironment.IsDevelopment())
+    {
+      Configure<AbpVirtualFileSystemOptions>(options =>
+      {
+        options.FileSets.ReplaceEmbeddedByPhysical<RokniAppApiDomainSharedModule>(
+                  Path.Combine(hostingEnvironment.ContentRootPath,
+                      $"..{Path.DirectorySeparatorChar}RokniAppApi.Domain.Shared"));
+        options.FileSets.ReplaceEmbeddedByPhysical<RokniAppApiDomainModule>(
+                  Path.Combine(hostingEnvironment.ContentRootPath,
+                      $"..{Path.DirectorySeparatorChar}RokniAppApi.Domain"));
+        options.FileSets.ReplaceEmbeddedByPhysical<RokniAppApiApplicationContractsModule>(
+                  Path.Combine(hostingEnvironment.ContentRootPath,
+                      $"..{Path.DirectorySeparatorChar}RokniAppApi.Application.Contracts"));
+        options.FileSets.ReplaceEmbeddedByPhysical<RokniAppApiApplicationModule>(
+                  Path.Combine(hostingEnvironment.ContentRootPath,
+                      $"..{Path.DirectorySeparatorChar}RokniAppApi.Application"));
+      });
+    }
+  }
+
+  private void ConfigureConventionalControllers()
+  {
+    Configure<AbpAspNetCoreMvcOptions>(options =>
+    {
+      options.ConventionalControllers.Create(typeof(RokniAppApiApplicationModule).Assembly);
+    });
+  }
+
+  private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
+  {
+    context.Services.AddAbpSwaggerGenWithOAuth(
+        configuration["AuthServer:Authority"],
+        new Dictionary<string, string>
         {
-            options.StyleBundles.Configure(
-                LeptonXLiteThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
-            );
-        });
-    }
-
-    private void ConfigureUrls(IConfiguration configuration)
-    {
-        Configure<AppUrlOptions>(options =>
-        {
-            options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
-            options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"].Split(','));
-
-            options.Applications["Angular"].RootUrl = configuration["App:ClientUrl"];
-            options.Applications["Angular"].Urls[AccountUrlNames.PasswordReset] = "account/reset-password";
-        });
-    }
-
-    private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
-    {
-        var hostingEnvironment = context.Services.GetHostingEnvironment();
-
-        if (hostingEnvironment.IsDevelopment())
-        {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.ReplaceEmbeddedByPhysical<RokniAppApiDomainSharedModule>(
-                    Path.Combine(hostingEnvironment.ContentRootPath,
-                        $"..{Path.DirectorySeparatorChar}RokniAppApi.Domain.Shared"));
-                options.FileSets.ReplaceEmbeddedByPhysical<RokniAppApiDomainModule>(
-                    Path.Combine(hostingEnvironment.ContentRootPath,
-                        $"..{Path.DirectorySeparatorChar}RokniAppApi.Domain"));
-                options.FileSets.ReplaceEmbeddedByPhysical<RokniAppApiApplicationContractsModule>(
-                    Path.Combine(hostingEnvironment.ContentRootPath,
-                        $"..{Path.DirectorySeparatorChar}RokniAppApi.Application.Contracts"));
-                options.FileSets.ReplaceEmbeddedByPhysical<RokniAppApiApplicationModule>(
-                    Path.Combine(hostingEnvironment.ContentRootPath,
-                        $"..{Path.DirectorySeparatorChar}RokniAppApi.Application"));
-            });
-        }
-    }
-
-    private void ConfigureConventionalControllers()
-    {
-        Configure<AbpAspNetCoreMvcOptions>(options =>
-        {
-            options.ConventionalControllers.Create(typeof(RokniAppApiApplicationModule).Assembly);
-        });
-    }
-
-    private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
-    {
-        context.Services.AddAbpSwaggerGenWithOAuth(
-            configuration["AuthServer:Authority"],
-            new Dictionary<string, string>
-            {
                     {"RokniAppApi", "RokniAppApi API"}
-            },
-            options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "RokniAppApi API", Version = "v1" });
-                options.DocInclusionPredicate((docName, description) => true);
-                options.CustomSchemaIds(type => type.FullName);
-            });
-    }
-
-    private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
-    {
-        context.Services.AddCors(options =>
+        },
+        options =>
         {
-            options.AddDefaultPolicy(builder =>
-               {
-                builder
-                    .WithOrigins(
-                        configuration["App:CorsOrigins"]
-                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                            .Select(o => o.RemovePostFix("/"))
-                            .ToArray()
-                    )
-                    .WithAbpExposedHeaders()
-                    .SetIsOriginAllowedToAllowWildcardSubdomains()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
-            });
+          options.SwaggerDoc("v1", new OpenApiInfo { Title = "RokniAppApi API", Version = "v1" });
+          options.DocInclusionPredicate((docName, description) => true);
+          options.CustomSchemaIds(type => type.FullName);
         });
-    }
+  }
 
-    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+  private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+  {
+    context.Services.AddCors(options =>
     {
-        var app = context.GetApplicationBuilder();
-        var env = context.GetEnvironment();
+      options.AddDefaultPolicy(builder =>
+             {
+             builder
+                     .WithOrigins(
+                         configuration["App:CorsOrigins"]
+                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                             .Select(o => o.RemovePostFix("/"))
+                             .ToArray()
+                     )
+                     .WithAbpExposedHeaders()
+                     .SetIsOriginAllowedToAllowWildcardSubdomains()
+                     .AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials();
+           });
+    });
+  }
 
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
+  public override void OnApplicationInitialization(ApplicationInitializationContext context)
+  {
+    var app = context.GetApplicationBuilder();
+    var env = context.GetEnvironment();
 
-        app.UseAbpRequestLocalization();
-
-        if (!env.IsDevelopment())
-        {
-            app.UseErrorPage();
-        }
-
-        app.UseCorrelationId();
-        app.UseStaticFiles();
-        app.UseRouting();
-        app.UseCors();
-        app.UseAuthentication();
-        app.UseAbpOpenIddictValidation();
-
-        if (MultiTenancyConsts.IsEnabled)
-        {
-            app.UseMultiTenancy();
-        }
-
-        app.UseUnitOfWork();
-        app.UseAuthorization();
-
-        app.UseSwagger();
-        app.UseAbpSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "RokniAppApi API");
-
-            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            c.OAuthScopes("RokniAppApi");
-        });
-
-        app.UseAuditing();
-        app.UseAbpSerilogEnrichers();
-        app.UseConfiguredEndpoints();
+    if (env.IsDevelopment())
+    {
+      app.UseDeveloperExceptionPage();
     }
+
+    app.UseAbpRequestLocalization();
+
+    if (!env.IsDevelopment())
+    {
+      app.UseErrorPage();
+    }
+
+    app.UseCorrelationId();
+    app.UseStaticFiles();
+    app.UseRouting();
+    app.UseCors();
+    app.UseAuthentication();
+    app.UseAbpOpenIddictValidation();
+
+    if (MultiTenancyConsts.IsEnabled)
+    {
+      app.UseMultiTenancy();
+    }
+
+    app.UseUnitOfWork();
+    app.UseAuthorization();
+
+    app.UseSwagger();
+    app.UseAbpSwaggerUI(c =>
+    {
+      c.SwaggerEndpoint("/swagger/v1/swagger.json", "RokniAppApi API");
+
+      var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+      c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+      c.OAuthScopes("RokniAppApi");
+    });
+
+    app.UseAuditing();
+    app.UseAbpSerilogEnrichers();
+    app.UseConfiguredEndpoints();
+  }
 }

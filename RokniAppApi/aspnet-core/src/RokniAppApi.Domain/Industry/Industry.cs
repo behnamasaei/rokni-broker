@@ -11,5 +11,10 @@ namespace RokniAppApi.IndustryModel
   {
     public string Name { get; set; }
     public virtual ICollection<Stock> Stocks { get; set; }
+
+    public Industry()
+    {
+      Id = Guid.NewGuid();
+    }
   }
 }

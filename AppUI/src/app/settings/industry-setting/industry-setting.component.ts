@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Industry } from 'src/app/Models/Industry';
 import { IndustryModalComponent } from './industry-modal/industry-modal.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { IndustryService } from './industry-modal/industry.service';
+import { IndustryDto } from 'src/app/Models/Industry';
+import { IPagedAndSortedResultDto, IPagedResult } from 'src/app/Models/CommonModels';
 
 @Component({
   selector: 'app-industry-setting',
@@ -13,8 +14,12 @@ import { IndustryService } from './industry-modal/industry.service';
 })
 export class IndustrySettingComponent implements OnInit {
 
-  industries: Industry[] = [];
-
+  industries: IndustryDto[] = [];
+  pagedResult: IPagedAndSortedResultDto = {
+    Sorting: '',
+    SkipCount: 0,
+    MaxResultCount: 1000,
+  }
 
   constructor(public dialogService: DialogService,
     private service: IndustryService,
@@ -24,31 +29,33 @@ export class IndustrySettingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.getAll().subscribe((res: Industry[]) => this.industries = res);
+    this.service.getAll(this.pagedResult).subscribe((res: IPagedResult<IndustryDto>) => this.industries = res.items);
   }
 
   openNew() {
     const ref = this.dialogService.open(IndustryModalComponent, {
       header: 'افزودن صنعت',
       width: '70%'
-    }).onClose.subscribe((res: Industry) => {
+    }).onClose.subscribe((res: IndustryDto) => {
       this.industries.push(res);
     });
   }
 
-  edit(industry: Industry) {
+  edit(industry: IndustryDto) {
     const ref = this.dialogService.open(IndustryModalComponent, {
       header: 'ویرایش صنعت',
       width: '70%',
       data: industry
-    }).onClose.subscribe((res: Industry) => {
-      let index = this.industries.indexOf(industry);
-      this.industries[index] = res;
+    }).onClose.subscribe((res: IndustryDto) => {
+      if(res){
+        let index = this.industries.indexOf(industry);
+        this.industries[index] = res;
+      }
     })
   }
 
 
-  confirm(industry: Industry) {
+  confirm(industry: IndustryDto) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
@@ -58,9 +65,9 @@ export class IndustrySettingComponent implements OnInit {
     });
   }
 
-  delete(industry: Industry) {
+  delete(industry: IndustryDto) {
     this.service.delete(industry.id).subscribe((res: any) => {
-      if (res === true) {
+      if (res === null) {
         this.industries = this.industries.filter(i => i.id !== industry.id);
       }
     });

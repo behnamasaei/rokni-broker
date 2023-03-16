@@ -8,7 +8,6 @@ namespace RokniAppApi.Stock
 {
   public class StockCreateUpdateDto
   {
-    public Guid Id { get; set; }
     [Required]
     public string Name { get; set; }
     public string CodalLink { get; set; }
