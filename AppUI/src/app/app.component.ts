@@ -24,8 +24,10 @@ export class AppComponent implements OnInit {
           label: 'صنایع',
           routerLink: ['/settings/industry']
         },
-        { label: 'Open' },
-        { label: 'Quit' }
+        {
+          label: 'سهام',
+          routerLink: ['/settings/stock']
+        },
         ]
       },
       {

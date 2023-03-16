@@ -7,12 +7,16 @@ import { SettingsComponent } from './settings.component';
 import { IndustrySettingComponent } from './industry-setting/industry-setting.component';
 import { SharedModule } from '../shared.module';
 import { IndustryModalComponent } from './industry-setting/industry-modal/industry-modal.component';
+import { StockSettingComponent } from './stock-setting/stock-setting.component';
+import { StockModalComponent } from './stock-setting/stock-modal/stock-modal.component';
 
 @NgModule({
   declarations: [
     SettingsComponent,
     IndustrySettingComponent,
-    IndustryModalComponent],
+    IndustryModalComponent,
+    StockSettingComponent,
+    StockModalComponent],
   imports: [
     CommonModule,
     RouterModule,
