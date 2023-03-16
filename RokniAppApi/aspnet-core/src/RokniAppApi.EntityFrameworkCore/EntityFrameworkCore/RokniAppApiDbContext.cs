@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RokniAppApi.IndustryModel;
-using RokniAppApi.NoteModel;
+using RokniAppApi.NoteBookModel;
 using RokniAppApi.StockModel;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
