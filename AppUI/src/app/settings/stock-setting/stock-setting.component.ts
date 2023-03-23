@@ -5,7 +5,8 @@ import { StockDto } from 'src/app/Models/Stock';
 import { IndustryService } from '../industry-setting/industry-modal/industry.service';
 import { StockModalComponent } from './stock-modal/stock-modal.component';
 import { StockServiceService } from './stock-service.service';
-import { IPagedAndSortedResultDto } from 'src/app/Models/CommonModels';
+import { IPagedAndSortedResultDto, NoteBookType } from 'src/app/Models/CommonModels';
+import { NotebookComponent } from 'src/app/Notebook/Notebook.component';
 
 @Component({
   selector: 'app-stock-setting',
@@ -15,26 +16,59 @@ import { IPagedAndSortedResultDto } from 'src/app/Models/CommonModels';
 })
 export class StockSettingComponent implements OnInit {
   stocks: StockDto[] = [];
-  paged: IPagedAndSortedResultDto = { Sorting: '', SkipCount: 0, MaxResultCount: 1000 }
+  totalRecords: number = 0;
+  paged: IPagedAndSortedResultDto = { Sorting: '', SkipCount: 0, MaxResultCount: 10 }
+  loading: boolean = true;
+  searchValue: string = '';
 
   constructor(public dialogService: DialogService,
     private service: StockServiceService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) {
 
   }
 
   ngOnInit(): void {
-    this.service.getWithDetail(this.paged).subscribe((res) => this.stocks = res.items)
+    this.loading = true;
+  }
 
+  loadData() {
+    this.loading = true;
+    this.service.getWithDetail(this.paged).subscribe((res) => {
+      this.stocks = res.items;
+      this.loading = false;
+      this.totalRecords = res.totalCount;
+    })
+  }
+
+  Search() {
+    this.loading = true;
+    this.service.getWithDetailByName(this.paged, this.searchValue).subscribe((res) => {
+      this.stocks = res.items;
+      this.loading = false;
+      this.totalRecords = res.totalCount;
+    })
+  }
+
+  paginate(event: any) {
+    this.paged = { Sorting: '', SkipCount: event.first, MaxResultCount: event.rows }
+
+    this.loading = true;
+    this.service.getWithDetail(this.paged).subscribe((res) => {
+      this.stocks = res.items;
+      this.loading = false;
+      this.totalRecords = res.totalCount;
+    })
   }
 
   openNew() {
-    const ref = this.dialogService.open(StockModalComponent, {
+    this.dialogService.open(StockModalComponent, {
       header: 'افزودن سهام',
       width: '70%'
     }).onClose.subscribe((res: StockDto) => {
-      this.stocks.push(res);
+      this.stocks.unshift(res);
+      this.totalRecords++;
     });
   }
 
@@ -44,7 +78,7 @@ export class StockSettingComponent implements OnInit {
       width: '70%',
       data: stock
     }).onClose.subscribe((res: StockDto) => {
-      if(res){
+      if (res) {
         let index = this.stocks.indexOf(stock);
         this.stocks[index] = res;
       }
@@ -66,8 +100,26 @@ export class StockSettingComponent implements OnInit {
     this.service.delete(stock.id).subscribe((res: any) => {
       if (res === null) {
         this.stocks = this.stocks.filter(i => i.id !== stock.id);
+        this.totalRecords--;
       }
     });
+  }
+
+  noteBook(stock: StockDto) {
+    const ref = this.dialogService.open(NotebookComponent, {
+      header: 'یادداشت',
+      width: '70%',
+      height: '90%',
+      data: {
+        type: NoteBookType.stock,
+        id: stock.id,
+        noteBookId: stock.stockNotebookId
+      }
+    }).onClose.subscribe((res: StockDto) => {
+      if (res) {
+        this.messageService.add({ severity: 'success', detail: 'عملیات با موفقیت انجام شد' })
+      }
+    })
   }
 }
 

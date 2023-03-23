@@ -1,0 +1,20 @@
+import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+
+@Pipe({
+  name: 'safaIframe'
+})
+export class SafaIframePipe implements PipeTransform {
+
+  /**
+   *
+   */
+  constructor(private sanitizer: DomSanitizer) {
+
+  }
+
+  transform(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+}

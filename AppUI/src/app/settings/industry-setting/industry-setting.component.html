@@ -1,21 +1,22 @@
-
+<p-toast></p-toast>
 
 <div class="container pt-5">
   <p-toolbar>
 
     <div class="p-toolbar-group-start">
       <button pButton pRipple label="افزودن" icon="pi pi-plus" class="p-button-success mr-2"
-      (click)="openNew()"></button>
+        (click)="openNew()"></button>
     </div>
-  
+
     <div class="p-toolbar-group-end">
-      
+
     </div>
   </p-toolbar>
 
-  
 
-  <p-table [value]="industries" [tableStyle]="{'min-width': '50rem'}">
+
+  <p-table [value]="industries" [tableStyle]="{'min-width': '50rem'}" [lazy]="true" (onLazyLoad)="loadData()"
+    [loading]="loading">
     <ng-template pTemplate="header">
       <tr>
         <th>کد</th>
@@ -31,7 +32,9 @@
           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
             (click)="edit(industry)"></button>
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-          (click)="confirm(industry)"></button>
+            (click)="confirm(industry)"></button>
+          <button pButton pRipple icon="pi pi-book" class="p-button-rounded"
+            (click)="noteBook(industry)"></button>
         </td>
       </tr>
     </ng-template>

@@ -1,0 +1,97 @@
+<div class="row mt-3">
+  <h3 class="text-center my-5">{{industry.name}}</h3>
+  <p>تعداد سهام این صنعت: {{totalStockRecord}}</p>
+  <div class="col">
+    <p-panel [header]="industry.name" [toggleable]="true" width="100%">
+      <ng-template pTemplate="icons" class="header-panel">
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/rahavard.png" class="header-panel-img" pTooltip="رهاورد" tooltipPosition="bottom"
+            (click)="openFrameModal(industry.rahvardLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/chartsaz.png" class="header-panel-img" pTooltip="چارت ساز" tooltipPosition="bottom"
+            (click)="openFrameModal(industry.chartsazLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/codal-32x32.png" class="header-panel-img" pTooltip="کدال" tooltipPosition="bottom"
+            (click)="openFrameModal(industry.codalLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/tablokhani.png" class="header-panel-img" pTooltip="تابلوخوانی" tooltipPosition="bottom"
+            (click)="openFrameModal(industry.tablokhaniLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/tsetmc.png" class="header-panel-img" pTooltip="tsetmc" tooltipPosition="bottom"
+            (click)="openFrameModal(industry.tsetmcLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/shakhesban.jpg" class="header-panel-img" pTooltip="شاخص بان" tooltipPosition="bottom"
+            (click)="openFrameModal(industry.shakhesbanLink)">
+        </button>
+
+        <button pButton pButton pRipple icon="pi pi-book" class="p-panel-header-icon p-link p-button-rounded"
+          pTooltip="یادداشت" (click)="noteBookIndustry(industry)">
+        </button>
+
+      </ng-template>
+
+      <object width="100%" height="500px" [data]="industry.chartIndex | safaIframe">
+        <iframe [src]="industry.chartIndex | safaIframe" width="100%" height="500px"></iframe>
+      </object>
+    </p-panel>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-6 mt-3" *ngFor="let stock of stocks">
+    <p-panel [header]="stock.name" [toggleable]="true">
+      <ng-template pTemplate="icons" class="header-panel">
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/rahavard.png" class="header-panel-img" pTooltip="رهاورد" tooltipPosition="bottom"
+            (click)="openFrameModal(stock.rahvardLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/chartsaz.png" class="header-panel-img" pTooltip="چارت ساز" tooltipPosition="bottom"
+            (click)="openFrameModal(stock.chartsazLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/codal-32x32.png" class="header-panel-img" pTooltip="کدال" tooltipPosition="bottom"
+            (click)="openFrameModal(stock.codalLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/tablokhani.png" class="header-panel-img" pTooltip="تابلوخوانی" tooltipPosition="bottom"
+            (click)="openFrameModal(stock.tablokhaniLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/tsetmc.png" class="header-panel-img" pTooltip="tsetmc" tooltipPosition="bottom"
+            (click)="openFrameModal(stock.tsetmcLink)">
+        </button>
+
+        <button pButton class="p-panel-header-icon p-link">
+          <img src="../../assets/shakhesban.jpg" class="header-panel-img" pTooltip="شاخص بان" tooltipPosition="bottom"
+            (click)="openFrameModal(stock.shakhesbanLink)">
+        </button>
+
+        <button pButton pButton pRipple icon="pi pi-book" class="p-panel-header-icon p-link p-button-rounded"
+          pTooltip="یادداشت" (click)="noteBookStock(stock)">
+        </button>
+      </ng-template>
+
+      <object width="100%" height="500px" [data]="stock.chartIndex | safaIframe">
+        <iframe [src]="stock.chartIndex | safaIframe" width="100%" height="500px"></iframe>
+      </object>
+    </p-panel>
+  </div>
+  <p-paginator [rows]="6" [totalRecords]="totalStockRecord" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[4, 6 ,10,30,50,100]"></p-paginator>
+</div>

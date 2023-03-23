@@ -1,13 +1,23 @@
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>
+<p-dialog [(visible)]="contactUsDisplay">
+  <div class="row">
+    <p>نسخه برنامه: v1.0</p><br>
+    <p>توسعه دهنده: بهنام آسائی</p><br>
+    <p>09152078926 <i class="pi pi-phone"></i></p>
+    <p>behnamasaei@gmail.com <i class="pi pi-google"></i></p>
+    <p>@behnamasaei <i class="pi pi-telegram"></i></p>
+  </div>
+</p-dialog>
 
-<div class="container-fluid">
-  <p-menubar [model]="menubar">
-    <button pButton label="Logout" icon="pi pi-power-off"></button>
-  </p-menubar>
+<div class="container-fluid my-megamenu">
+  <p-megaMenu [model]="menubar" styleClass="flex">
+    <ng-template pTemplate="end">
+      <button pButton type="button" class="p-button-info" (click)="showDialog()">تماس با پشتیبان</button>
+    </ng-template>
+  </p-megaMenu>
 
 
   <router-outlet></router-outlet>
-
-
 
 </div>

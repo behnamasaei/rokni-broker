@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using RokniAppApi.Application.Contracts.IndustryNotebook;
+using RokniAppApi.Application.Contracts.StockNotebook;
+using RokniAppApi.Domain.NoteModel;
 using RokniAppApi.Industry;
-using RokniAppApi.Notebook;
 using RokniAppApi.Stock;
 using Volo.Abp.Application.Dtos;
 
@@ -17,8 +19,10 @@ public class RokniAppApiApplicationAutoMapperProfile : Profile
     CreateMap<IndustryModel.Industry, IndustryCreateUpdateDto>().ReverseMap();
 
 
-    CreateMap<NoteBookModel.NoteBook, NotebookDto>().ReverseMap();
-    CreateMap<NoteBookModel.NoteBook, NotebookCreateUpdateDto>().ReverseMap();
+    CreateMap<StockNotebook, StockNotebookDto>().ReverseMap();
+    CreateMap<IndustryNotebook, IndustryNotebookDto>().ReverseMap();
+    CreateMap<StockNotebook, StockNotebookCreateUpdateDto>().ReverseMap();
+    CreateMap<IndustryNotebook, IndustryNotebookCreateUpdateDto>().ReverseMap();
 
     CreateMap<StockModel.Stock, StockDto>().ReverseMap();
     CreateMap<StockModel.Stock, StockCreateUpdateDto>().ReverseMap();

@@ -17,7 +17,14 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { InputTextModule } from 'primeng/inputtext';
 import { RatingModule } from 'primeng/rating';
-import {FieldsetModule} from 'primeng/fieldset';
+import { FieldsetModule } from 'primeng/fieldset';
+import { PanelModule } from 'primeng/panel';
+import { SplitterModule } from 'primeng/splitter';
+import { MenuModule } from 'primeng/menu';
+import { TooltipModule } from 'primeng/tooltip';
+import { MegaMenuModule } from 'primeng/megamenu';
+import { PaginatorModule } from 'primeng/paginator';
+import {EditorModule} from 'primeng/editor';
 
 const PrimeModule = [
   TableModule,
@@ -36,6 +43,13 @@ const PrimeModule = [
   ProgressBarModule,
   RatingModule,
   FieldsetModule,
+  PanelModule,
+  SplitterModule,
+  MenuModule,
+  TooltipModule,
+  MegaMenuModule,
+  PaginatorModule,
+  EditorModule
 ]
 
 @NgModule({

@@ -47,6 +47,8 @@ export class StockModalComponent implements OnInit {
         rahvardLink: new FormControl(this.config.data.rahvardLink),
         shakhesbanLink: new FormControl(this.config.data.shakhesbanLink),
         industryId: new FormControl(this.config.data.industry),
+        chartIndex: new FormControl(this.config.data.chartIndex),
+        sortNumber: new FormControl(this.config.data.sortNumber),
       })
     } else {
       this.form = new FormGroup({
@@ -58,6 +60,8 @@ export class StockModalComponent implements OnInit {
         rahvardLink: new FormControl(''),
         shakhesbanLink: new FormControl(''),
         industryId: new FormControl(''),
+        chartIndex: new FormControl(''),
+        sortNumber: new FormControl('10'),
       })
     }
   }
@@ -65,21 +69,27 @@ export class StockModalComponent implements OnInit {
 
   save() {
     const stock: StockCreateUpdateDto = {
-      Name: this.form.get('name')?.value,
-      CodalLink: this.form.get('codalLink')?.value,
-      ChartsazLink: this.form.get('chartsazLink')?.value,
-      TablokhaniLink: this.form.get('tablokhaniLink')?.value,
-      TsetmcLink: this.form.get('tsetmcLink')?.value,
-      RahvardLink: this.form.get('rahvardLink')?.value,
-      ShakhesbanLink: this.form.get('shakhesbanLink')?.value,
-      IndustryId: this.form.get('industryId')?.value.id,
+      id: (this.config.data) ? this.config.data.id : '',
+      name: this.form.get('name')?.value,
+      codalLink: this.form.get('codalLink')?.value,
+      chartsazLink: this.form.get('chartsazLink')?.value,
+      tablokhaniLink: this.form.get('tablokhaniLink')?.value,
+      tsetmcLink: this.form.get('tsetmcLink')?.value,
+      rahvardLink: this.form.get('rahvardLink')?.value,
+      shakhesbanLink: this.form.get('shakhesbanLink')?.value,
+      industryId: this.form.get('industryId')?.value.id,
+      sortNumber: this.form.get('sortNumber')?.value,
+      stockNotebookId: (this.config.data) ? this.config.data.stockNotebookId : this.form.get('stockNotebookId')?.value,
+      chartIndex: this.form.get('chartIndex')?.value,
     }
 
     if (this.config.data) {
-
+      this.service.put(stock).subscribe((res) => {
+        this.ref.close(res);
+      })
     } else {
-      this.service.post(stock).subscribe((res)=>{
-        console.log(res);
+      this.service.post(stock).subscribe((res) => {
+        this.ref.close(res)
       })
     }
   }

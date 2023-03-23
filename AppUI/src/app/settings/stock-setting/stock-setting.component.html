@@ -1,19 +1,26 @@
+<p-toast></p-toast>
 <div class="container pt-5">
+  <p>تعداد سهام: {{totalRecords}}</p>
   <p-toolbar>
 
     <div class="p-toolbar-group-start">
       <button pButton pRipple label="افزودن" icon="pi pi-plus" class="p-button-success mr-2"
         (click)="openNew()"></button>
+
     </div>
 
     <div class="p-toolbar-group-end">
-
+      <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search" (click)="Search()"></i>
+        <input #searchField pInputText type="text" placeholder="جستجو کنید" [(ngModel)]="searchValue" />
+      </span>
     </div>
   </p-toolbar>
 
 
 
-  <p-table [value]="stocks" [tableStyle]="{'min-width': '50rem'}" class="stock-table">
+  <p-table [value]="stocks" [tableStyle]="{'min-width': '50rem'}" class="stock-table" [lazy]="true"
+    (onLazyLoad)="loadData()" [loading]="loading">
     <ng-template pTemplate="header">
       <tr>
         <th>سهام</th>
@@ -43,9 +50,12 @@
             (click)="edit(stock)"></button>
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
             (click)="confirm(stock)"></button>
+          <button pButton pRipple icon="pi pi-book" class="p-button-rounded" (click)="noteBook(stock)"></button>
         </td>
       </tr>
     </ng-template>
+
   </p-table>
+  <p-paginator [rows]="10" [totalRecords]="totalRecords" (onPageChange)="paginate($event)"></p-paginator>
 
 </div>

@@ -14,17 +14,23 @@ export class IndustryService {
 
   getAll(input: IPagedAndSortedResultDto): Observable<IPagedResult<IndustryDto>> {
     return this.httpClient.get<IPagedResult<IndustryDto>>(environment.baseApi +
-       `/api/app/industry?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
+      `/api/app/industry?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
   }
 
-  post(industry: IndustryCreateUpdateDto ): Observable<IndustryDto> {
-    const body = {
-      name: industry.name
-    }
-    return this.httpClient.post<IndustryDto>(environment.baseApi + '/api/app/industry', body);
+  getById(id: string | null): Observable<IndustryDto> {
+    return this.httpClient.get<IndustryDto>(environment.baseApi + `/api/app/industry/${id}`);
   }
 
-  put(industry: IndustryCreateUpdateDto , id:string): Observable<IndustryDto> {
+  getByIdWithDetails(id: string | null): Observable<IndustryDto> {
+    return this.httpClient.get<IndustryDto>(environment.baseApi +
+      `/api/app/industry/${id}/by-id-with-detail`);
+  }
+
+  post(industry: IndustryCreateUpdateDto): Observable<IndustryDto> {
+    return this.httpClient.post<IndustryDto>(environment.baseApi + '/api/app/industry', industry);
+  }
+
+  put(industry: IndustryCreateUpdateDto): Observable<IndustryDto> {
     return this.httpClient.put<IndustryDto>(environment.baseApi + `/api/app/industry/${industry.id}`, industry);
   }
 

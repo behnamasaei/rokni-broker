@@ -10,11 +10,19 @@ import { SharedModule } from './shared.module';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmationService } from 'primeng/api';
 import { HomeComponent } from './home/home.component';
+import { SafaIframePipe } from './Shared/safa-iframe.pipe';
+import { IframeModalComponent } from './iframe-modal/iframe-modal.component';
+import { IndustryPageComponent } from './industry-page/industry-page.component';
+import { NotebookComponent } from './Notebook/Notebook.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    IframeModalComponent,
+    SafaIframePipe,
+    IndustryPageComponent,
+    NotebookComponent
   ],
   imports: [
     BrowserModule,

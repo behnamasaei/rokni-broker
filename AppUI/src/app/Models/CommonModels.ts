@@ -8,3 +8,9 @@ export interface IPagedResult<T> {
   items: T[],
   totalCount: number
 }
+
+
+export enum NoteBookType{
+  industry,
+  stock
+}

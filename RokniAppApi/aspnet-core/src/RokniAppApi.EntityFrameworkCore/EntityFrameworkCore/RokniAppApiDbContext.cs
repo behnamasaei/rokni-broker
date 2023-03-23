@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RokniAppApi.Domain.NoteModel;
 using RokniAppApi.IndustryModel;
-using RokniAppApi.NoteBookModel;
 using RokniAppApi.StockModel;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -64,7 +64,9 @@ public class RokniAppApiDbContext :
 
   public DbSet<Industry> Industries { get; set; }
   public DbSet<Stock> Stocks { get; set; }
-  public DbSet<NoteBook> NoteBooks { get; set; }
+  public DbSet<IndustryNotebook> industryNotebooks { get; set; }
+  public DbSet<StockNotebook> stockNotebooks { get; set; }
+
 
   protected override void OnModelCreating(ModelBuilder builder)
   {
@@ -83,10 +85,19 @@ public class RokniAppApiDbContext :
 
     /* Configure your own tables/entities inside here */
 
-    builder.Entity<NoteBook>(b =>
+    builder.Entity<IndustryNotebook>(b =>
     {
-      b.ToTable(RokniAppApiConsts.DbTablePrefix + "NoteBook", RokniAppApiConsts.DbSchema);
+      b.ToTable(RokniAppApiConsts.DbTablePrefix + "IndustryNotebook", RokniAppApiConsts.DbSchema);
       b.ConfigureByConvention(); //auto configure for the base class props
+      b.HasOne(e => e.Industry).WithOne(e => e.IndustryNotebook).HasForeignKey<Industry>(e => e.IndustryNotebookId).IsRequired();
+    });
+
+    builder.Entity<StockNotebook>(b =>
+    {
+      b.ToTable(RokniAppApiConsts.DbTablePrefix + "StockNotebook", RokniAppApiConsts.DbSchema);
+      b.ConfigureByConvention(); //auto configure for the base class props
+      b.HasOne(e => e.Stock).WithOne(e => e.StockNotebook).HasForeignKey<Stock>(e => e.StockNotebookId).IsRequired();
+
     });
 
     builder.Entity<Industry>(b =>
@@ -94,6 +105,7 @@ public class RokniAppApiDbContext :
       b.ToTable(RokniAppApiConsts.DbTablePrefix + "Industry", RokniAppApiConsts.DbSchema);
       b.ConfigureByConvention(); //auto configure for the base class props
       b.HasMany(e => e.Stocks).WithOne(e => e.Industry).HasForeignKey(e => e.IndustryId).IsRequired();
+      b.HasOne(e => e.IndustryNotebook).WithOne(e => e.Industry).HasForeignKey<Industry>(e => e.IndustryNotebookId).IsRequired();
     });
 
     builder.Entity<Stock>(b =>
@@ -101,6 +113,7 @@ public class RokniAppApiDbContext :
       b.ToTable(RokniAppApiConsts.DbTablePrefix + "Stock", RokniAppApiConsts.DbSchema);
       b.ConfigureByConvention(); //auto configure for the base class props
       b.HasOne(e => e.Industry).WithMany(e => e.Stocks).HasForeignKey(e => e.IndustryId).IsRequired();
+      b.HasOne(e => e.StockNotebook).WithOne(e => e.Stock).HasForeignKey<Stock>(e => e.StockNotebookId).IsRequired();
     });
   }
 }

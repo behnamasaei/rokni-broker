@@ -7,11 +7,25 @@
       </div>
     </div>
     <div class="col-12 col-md-6 align-self-center">
-      <p-dropdown [options]="industries" optionLabel="name" [filter]="true" filterBy="name" formControlName="industryId"></p-dropdown>
+      <p-dropdown [options]="industries" optionLabel="name" [filter]="true" filterBy="name"
+        formControlName="industryId"></p-dropdown>
     </div>
   </div>
 
-
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">لینک نمودار شاخص</label>
+        <input type="text" class="form-control" formControlName="chartIndex">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="mb-3">
+        <label class="form-label">ترتیب نمایش</label>
+        <input type="number" class="form-control" formControlName="sortNumber">
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-12 col-md-6">

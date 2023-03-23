@@ -20,46 +20,7 @@ namespace RokniAppApi.Migrations
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.Sqlite)
                 .HasAnnotation("ProductVersion", "7.0.1");
 
-            modelBuilder.Entity("RokniAppApi.IndustryModel.Industry", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppIndustry", (string)null);
-                });
-
-            modelBuilder.Entity("RokniAppApi.NoteBookModel.NoteBook", b =>
+            modelBuilder.Entity("RokniAppApi.Domain.NoteModel.IndustryNotebook", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
@@ -109,12 +70,137 @@ namespace RokniAppApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppNoteBook", (string)null);
+                    b.ToTable("AppIndustryNotebook", (string)null);
+                });
+
+            modelBuilder.Entity("RokniAppApi.Domain.NoteModel.StockNotebook", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppStockNotebook", (string)null);
+                });
+
+            modelBuilder.Entity("RokniAppApi.IndustryModel.Industry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ChartIndex")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ChartsazLink")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CodalLink")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<Guid>("IndustryNotebookId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RahvardLink")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShakhesbanLink")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SortNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TablokhaniLink")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TsetmcLink")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IndustryNotebookId")
+                        .IsUnique();
+
+                    b.ToTable("AppIndustry", (string)null);
                 });
 
             modelBuilder.Entity("RokniAppApi.StockModel.Stock", b =>
                 {
                     b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ChartIndex")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ChartsazLink")
@@ -161,6 +247,12 @@ namespace RokniAppApi.Migrations
                     b.Property<string>("ShakhesbanLink")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("SortNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("StockNotebookId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("TablokhaniLink")
                         .HasColumnType("TEXT");
 
@@ -170,6 +262,9 @@ namespace RokniAppApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IndustryId");
+
+                    b.HasIndex("StockNotebookId")
+                        .IsUnique();
 
                     b.ToTable("AppStock", (string)null);
                 });
@@ -1782,6 +1877,17 @@ namespace RokniAppApi.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("RokniAppApi.IndustryModel.Industry", b =>
+                {
+                    b.HasOne("RokniAppApi.Domain.NoteModel.IndustryNotebook", "IndustryNotebook")
+                        .WithOne("Industry")
+                        .HasForeignKey("RokniAppApi.IndustryModel.Industry", "IndustryNotebookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IndustryNotebook");
+                });
+
             modelBuilder.Entity("RokniAppApi.StockModel.Stock", b =>
                 {
                     b.HasOne("RokniAppApi.IndustryModel.Industry", "Industry")
@@ -1790,7 +1896,15 @@ namespace RokniAppApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RokniAppApi.Domain.NoteModel.StockNotebook", "StockNotebook")
+                        .WithOne("Stock")
+                        .HasForeignKey("RokniAppApi.StockModel.Stock", "StockNotebookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Industry");
+
+                    b.Navigation("StockNotebook");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -1933,6 +2047,16 @@ namespace RokniAppApi.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RokniAppApi.Domain.NoteModel.IndustryNotebook", b =>
+                {
+                    b.Navigation("Industry");
+                });
+
+            modelBuilder.Entity("RokniAppApi.Domain.NoteModel.StockNotebook", b =>
+                {
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("RokniAppApi.IndustryModel.Industry", b =>

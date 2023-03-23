@@ -15,20 +15,30 @@ export class StockServiceService {
 
   getAll(input: IPagedAndSortedResultDto): Observable<IPagedResult<StockDto>> {
     return this.httpClient.get<IPagedResult<StockDto>>(environment.baseApi +
-       `/api/app/stock?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
+      `/api/app/stock?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
+  }
+
+  getSotckWithIndustryId(id: string | null, input: IPagedAndSortedResultDto): Observable<IPagedResult<StockDto>> {
+    return this.httpClient.get<IPagedResult<StockDto>>(environment.baseApi +
+      `/api/app/stock/${id}/stock-with-industry-id?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
   }
 
   getWithDetail(input: IPagedAndSortedResultDto): Observable<IPagedResult<StockDto>> {
     return this.httpClient.get<IPagedResult<StockDto>>(environment.baseApi +
-       `/api/app/stock/with-details?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
+      `/api/app/stock/with-details?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
   }
 
-  post(industry: StockCreateUpdateDto ): Observable<StockDto> {
-    return this.httpClient.post<StockDto>(environment.baseApi + '/api/app/stock', industry);
+  getWithDetailByName(input: IPagedAndSortedResultDto, name: string): Observable<IPagedResult<StockDto>> {
+    return this.httpClient.get<IPagedResult<StockDto>>(environment.baseApi +
+      `/api/app/stock/with-details?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}&name=${name}`);
   }
 
-  put(industry: IndustryCreateUpdateDto , id:string): Observable<StockDto> {
-    return this.httpClient.put<StockDto>(environment.baseApi + `/api/app/stock/${industry.id}`, industry);
+  post(stock: StockCreateUpdateDto): Observable<StockDto> {
+    return this.httpClient.post<StockDto>(environment.baseApi + '/api/app/stock', stock);
+  }
+
+  put(stock: StockCreateUpdateDto): Observable<StockDto> {
+    return this.httpClient.put<StockDto>(environment.baseApi + `/api/app/stock/${stock.id}`, stock);
   }
 
   delete(id: string): Observable<any> {
