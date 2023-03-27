@@ -40,7 +40,7 @@ export class IndustryPageComponent implements OnInit {
     });
     this.itemId = this.route.snapshot.paramMap.get('id');
 
-    this.industryService.getById(this.itemId).subscribe(industry => this.industry = industry);
+    this.industryService.getByIdWithDetails(this.itemId).subscribe(industry => this.industry = industry);
     this.stockService.getSotckWithIndustryId(this.itemId, this.paged).subscribe(res => {
       this.stocks = res.items;
       this.totalStockRecord = res.totalCount

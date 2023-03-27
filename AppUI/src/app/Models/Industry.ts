@@ -12,6 +12,7 @@ export interface IndustryDto {
   tsetmcLink: string,
   rahvardLink: string,
   shakhesbanLink: string,
+  chartixLink:string,
   sortNumber: number,
   industryNotebookId?: string,
   industryNotebook: IndustryNotebookDto,
@@ -28,6 +29,7 @@ export interface IndustryCreateUpdateDto {
   tsetmcLink: string,
   rahvardLink: string,
   shakhesbanLink: string,
+  chartixLink:string,
   sortNumber: number,
   industryNotebookId: string
 }

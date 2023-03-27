@@ -39,6 +39,18 @@
           pTooltip="یادداشت" (click)="noteBookIndustry(industry)">
         </button>
 
+        <button pButton pButton pRipple icon="pi pi-bookmark"
+          *ngIf="(industry.industryNotebook.note === ''|| industry.industryNotebook.note === null);else bookmarkFill"
+          class="p-panel-header-icon p-link p-button-rounded" tooltipPosition="bottom" pTooltip="نشان گذاری"
+          (click)="noteBookIndustry(industry)">
+        </button>
+
+        <ng-template #bookmarkFill>
+          <button pButton pButton pRipple icon="pi pi-bookmark-fill" class="p-panel-header-icon p-link p-button-rounded"
+            tooltipPosition="bottom" pTooltip="نشان گذاری" (click)="noteBookIndustry(industry)">
+          </button>
+        </ng-template>
+
       </ng-template>
 
       <object width="100%" height="500px" [data]="industry.chartIndex | safaIframe">
@@ -86,6 +98,19 @@
         <button pButton pButton pRipple icon="pi pi-book" class="p-panel-header-icon p-link p-button-rounded"
           pTooltip="یادداشت" (click)="noteBookStock(stock)">
         </button>
+
+        <button pButton pButton pRipple icon="pi pi-bookmark"
+          *ngIf="(industry.industryNotebook.note === ''|| industry.industryNotebook.note === null);else bookmarkFill"
+          class="p-panel-header-icon p-link p-button-rounded" tooltipPosition="bottom" pTooltip="نشان گذاری"
+          (click)="noteBookStock(stock)">
+        </button>
+
+        <ng-template #bookmarkFill>
+          <button pButton pButton pRipple icon="pi pi-bookmark-fill" class="p-panel-header-icon p-link p-button-rounded"
+            tooltipPosition="bottom" pTooltip="نشان گذاری" (click)="noteBookStock(stock)">
+          </button>
+        </ng-template>
+
       </ng-template>
 
       <object width="100%" height="500px" [data]="stock.chartIndex | safaIframe">
@@ -93,5 +118,6 @@
       </object>
     </p-panel>
   </div>
-  <p-paginator [rows]="6" [totalRecords]="totalStockRecord" (onPageChange)="paginate($event)" [rowsPerPageOptions]="[4, 6 ,10,30,50,100]"></p-paginator>
+  <p-paginator [rows]="6" [totalRecords]="totalStockRecord" (onPageChange)="paginate($event)"
+    [rowsPerPageOptions]="[4, 6 ,10,30,50,100]"></p-paginator>
 </div>

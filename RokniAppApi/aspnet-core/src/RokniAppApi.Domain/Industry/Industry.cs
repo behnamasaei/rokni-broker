@@ -19,6 +19,7 @@ namespace RokniAppApi.IndustryModel
     public string TsetmcLink { get; set; }
     public string RahvardLink { get; set; }
     public string ShakhesbanLink { get; set; }
+    public string ChartixLink { get; set; }
     public int SortNumber { get; set; }
     public Guid IndustryNotebookId { get; set; }
     public virtual IndustryNotebook IndustryNotebook { get; set; }

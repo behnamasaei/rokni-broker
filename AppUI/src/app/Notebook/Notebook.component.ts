@@ -13,7 +13,8 @@ export class NotebookComponent implements OnInit {
 
   noteBook: NotebookCreateUpdateDto = {
     id: '',
-    text: ''
+    text: '',
+    note: ''
   };
 
   constructor(
@@ -28,14 +29,16 @@ export class NotebookComponent implements OnInit {
       case NoteBookType.industry:
         this.noteBookService.getIndustryNotebook(this.config.data.noteBookId).subscribe((res) => {
           this.noteBook.id = res.id;
-          this.noteBook.text = res.text
+          this.noteBook.text = res.text,
+          this.noteBook.note = res.note
         });
         break;
 
       case NoteBookType.stock:
         this.noteBookService.getStockNotebook(this.config.data.noteBookId).subscribe((res) => {
           this.noteBook.id = res.id;
-          this.noteBook.text = res.text
+          this.noteBook.text = res.text,
+          this.noteBook.note = res.note
         });
         break;
     }

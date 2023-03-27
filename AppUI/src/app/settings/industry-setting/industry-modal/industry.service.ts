@@ -17,6 +17,11 @@ export class IndustryService {
       `/api/app/industry?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
   }
 
+  getListWithDetail(input: IPagedAndSortedResultDto): Observable<IPagedResult<IndustryDto>> {
+    return this.httpClient.get<IPagedResult<IndustryDto>>(environment.baseApi +
+      `/api/app/industry/with-details?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
+  }
+
   getById(id: string | null): Observable<IndustryDto> {
     return this.httpClient.get<IndustryDto>(environment.baseApi + `/api/app/industry/${id}`);
   }

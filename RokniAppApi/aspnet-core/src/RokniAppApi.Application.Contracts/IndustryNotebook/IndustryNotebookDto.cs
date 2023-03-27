@@ -7,5 +7,6 @@ namespace RokniAppApi.Application.Contracts.IndustryNotebook
     {
         public Guid Id { get; set; }
         public string Text { get; set; }
+        public string Note { get; set; }
     }
 }

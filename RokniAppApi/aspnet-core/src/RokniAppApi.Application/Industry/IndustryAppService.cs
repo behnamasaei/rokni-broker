@@ -48,6 +48,18 @@ namespace RokniAppApi.Industry
     }
 
 
+    public async Task<PagedResultDto<IndustryDto>> GetListWithDetailsAsync(PagedAndSortedResultRequestDto input)
+    {
+      var query = await _repository.WithDetailsAsync(e => e.IndustryNotebook);
+      var industries = await AsyncExecuter.ToListAsync(query);
+      var industryPaged = industries.OrderBy(e => e.SortNumber).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+
+      var result = new PagedResultDto<IndustryDto>();
+      result.Items = ObjectMapper.Map<List<IndustryModel.Industry>, List<IndustryDto>>(industryPaged);
+      result.TotalCount = industries.Count;
+      return result;
+    }
+
     public async Task<IndustryDto> GetByIdWithDetailAsync(Guid id)
     {
       var query = await _repository.WithDetailsAsync(e => e.Stocks, e => e.IndustryNotebook);

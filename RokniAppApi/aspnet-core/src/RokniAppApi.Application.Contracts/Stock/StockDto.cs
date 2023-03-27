@@ -18,6 +18,7 @@ namespace RokniAppApi.Stock
     public string RahvardLink { get; set; }
     public string ShakhesbanLink { get; set; }
     public string ChartIndex { get; set; }
+    public string ChartixLink { get; set; }
     public int SortNumber { get; set; }
 
     public Guid StockNotebookId { get; set; }

@@ -6,7 +6,7 @@ import { IndustryDto } from '../Models/Industry';
 import { IPagedAndSortedResultDto, NoteBookType } from '../Models/CommonModels';
 import { NotebookComponent } from '../Notebook/Notebook.component';
 import { MessageService } from 'primeng/api';
-
+import { IndustryNotebookDto } from '../Models/Notebook';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   totalIndustries: number = 0;
   paged: IPagedAndSortedResultDto = { Sorting: '', SkipCount: 0, MaxResultCount: 4 }
   searchValue: string = '';
-  
+
   constructor(
     private dialogService: DialogService,
     private industryService: IndustryService,
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.industryService.getAll(this.paged).subscribe(res => {
+    this.industryService.getListWithDetail(this.paged).subscribe(res => {
       this.industries = res.items;
       this.totalIndustries = res.totalCount;
     });
@@ -43,8 +43,11 @@ export class HomeComponent implements OnInit {
         id: industry.id,
         noteBookId: industry.industryNotebookId
       }
-    }).onClose.subscribe((res: IndustryDto) => {
+    }).onClose.subscribe((res: IndustryNotebookDto) => {
       if (res) {
+        debugger
+        let index = this.industries.findIndex(e => e.id === industry.id);
+        this.industries[index].industryNotebook = res;
         this.messageService.add({ severity: 'success', detail: 'عملیات با موفقیت انجام شد' })
       }
     })
@@ -53,7 +56,7 @@ export class HomeComponent implements OnInit {
   paginate(event: any) {
     this.paged = { Sorting: '', SkipCount: event.first, MaxResultCount: event.rows }
 
-    this.industryService.getAll(this.paged).subscribe(res => {
+    this.industryService.getListWithDetail(this.paged).subscribe(res => {
       this.industries = res.items;
       this.totalIndustries = res.totalCount;
     });

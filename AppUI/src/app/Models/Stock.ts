@@ -11,6 +11,7 @@ export interface StockDto {
   chartIndex: string,
   rahvardLink: string,
   shakhesbanLink: string,
+  chartixLink:string,
   industryId: string,
   stockNotebook: StockNotebookDto,
   stockNotebookId: string,
@@ -28,6 +29,7 @@ export interface StockCreateUpdateDto {
   tsetmcLink: string,
   rahvardLink: string,
   shakhesbanLink: string,
+  chartixLink:string,
   industryId: string,
   sortNumber: number,
   stockNotebookId: string

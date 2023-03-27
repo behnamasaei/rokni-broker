@@ -31,6 +31,7 @@ export class IndustryModalComponent implements OnInit {
         tsetmcLink: new FormControl(this.config.data.tsetmcLink),
         rahvardLink: new FormControl(this.config.data.rahvardLink),
         shakhesbanLink: new FormControl(this.config.data.shakhesbanLink),
+        chartixLink: new FormControl(this.config.data.chartixLink),
         chartIndex: new FormControl(this.config.data.chartIndex),
         sortNumber: new FormControl(this.config.data.sortNumber),
       })
@@ -44,9 +45,10 @@ export class IndustryModalComponent implements OnInit {
         tsetmcLink: new FormControl(''),
         rahvardLink: new FormControl(''),
         shakhesbanLink: new FormControl(''),
+        chartixLink: new FormControl(''),
         industryId: new FormControl(''),
         chartIndex: new FormControl(''),
-        sortNumber: new FormControl(''),
+        sortNumber: new FormControl('10'),
       })
     }
   }
@@ -63,6 +65,7 @@ export class IndustryModalComponent implements OnInit {
       shakhesbanLink: this.form.get('shakhesbanLink')?.value,
       sortNumber: this.form.get('sortNumber')?.value,
       chartIndex: this.form.get('chartIndex')?.value,
+      chartixLink: this.form.get('chartixLink')?.value,
       industryNotebookId: (this.config.data) ? this.config.data.industryNotebookId : '3fa85f64-5717-4562-b3fc-2c963f66afa6'
     }
     if (this.config.data) {

@@ -1,3 +1,14 @@
-
 <button pButton type="button" label="ذخیره" icon="pi pi-save" (click)="saveNotebook()"></button>
-<p-editor [(ngModel)]="noteBook.text" [style]="{'height':'500px'}"></p-editor>
+
+<div class="row">
+  <div class="col-6">
+    <p>بادداشت</p>
+    <p-editor [(ngModel)]="noteBook.text" [style]="{'height':'500px'}"></p-editor>
+
+  </div>
+  <div class="col-6">
+    <p>Note</p>
+    <p-editor [(ngModel)]="noteBook.note" [style]="{'height':'500px'}"></p-editor>
+  </div>
+
+</div>
