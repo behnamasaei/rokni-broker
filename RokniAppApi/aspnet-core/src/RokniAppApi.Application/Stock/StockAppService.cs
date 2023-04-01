@@ -50,12 +50,33 @@ IStockAppService
       return ObjectMapper.Map<StockModel.Stock, StockDto>(stockWithDetail);
     }
 
+    public async Task<bool> UpdateChoosenAsync(Guid id, bool choosen)
+    {
+      var entity = await _stockRepository.FindAsync(e => e.Id == id);
+      entity.Choosen = choosen;
+      var result = _stockRepository.UpdateAsync(entity, autoSave: true).IsCompletedSuccessfully;
+      return result;
+    }
+
+    public async Task<PagedResultDto<StockDto>> GetListChoosenAsync(PagedAndSortedResultRequestDto input)
+    {
+      var query = await _stockRepository.WithDetailsAsync(e => e.StockNotebook);
+      var stocks = await AsyncExecuter.ToListAsync(query);
+      stocks = stocks.Where(e => e.Choosen == true).ToList();
+      var stockPaged = stocks.OrderBy(e => e.SortNumber).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+
+      var result = new PagedResultDto<StockDto>();
+      result.Items = ObjectMapper.Map<List<StockModel.Stock>, List<StockDto>>(stockPaged);
+      result.TotalCount = stocks.Count;
+      return result;
+    }
+
     public async Task<PagedResultDto<StockDto>> GetListWithDetailsAsync(PagedAndSortedResultRequestDto input,
     string? name)
     {
       var query = await _stockRepository.WithDetailsAsync(e => e.Industry);
       var stocksQuery = await AsyncExecuter.ToListAsync(query);
-      
+
       var stocks = new List<StockModel.Stock>();
       var result = new PagedResultDto<StockDto>();
 

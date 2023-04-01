@@ -19,6 +19,7 @@ namespace RokniAppApi.Industry
     public string ShakhesbanLink { get; set; }
     public string ChartixLink { get; set; }
     public int SortNumber { get; set; }
+    public bool Choosen {get; set;}
     public Guid IndustryNotebookId { get; set; }
   }
 }

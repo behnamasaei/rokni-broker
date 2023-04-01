@@ -51,6 +51,18 @@
           </button>
         </ng-template>
 
+        <button pButton pButton pRipple icon="pi pi-star" *ngIf="(industry.choosen === false);else choosenFillIndustry"
+          class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom" pTooltip="برگزیدن"
+          (click)="updateChoosenIndustry(industry.id , true  )">
+        </button>
+
+        <ng-template #choosenFillIndustry>
+          <button pButton pButton pRipple icon="pi pi-star-fill"
+            class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom"
+            pTooltip="حذف برگزیده" (click)="updateChoosenIndustry(industry.id , false)">
+          </button>
+        </ng-template>
+
       </ng-template>
 
       <object width="100%" height="500px" [data]="industry.chartIndex | safaIframe">
@@ -111,6 +123,17 @@
           </button>
         </ng-template>
 
+        <button pButton pButton pRipple icon="pi pi-star" *ngIf="(stock.choosen === false);else choosenFill"
+          class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom" pTooltip="برگزیدن"
+          (click)="updateChoosenStock(stock.id , true ,stock )">
+        </button>
+
+        <ng-template #choosenFill>
+          <button pButton pButton pRipple icon="pi pi-star-fill"
+            class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom"
+            pTooltip="حذف برگزیده" (click)="updateChoosenStock(stock.id , false,stock)">
+          </button>
+        </ng-template>
       </ng-template>
 
       <object width="100%" height="500px" [data]="stock.chartIndex | safaIframe">

@@ -17,6 +17,11 @@ export class IndustryService {
       `/api/app/industry?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
   }
 
+  getChoosen(input: IPagedAndSortedResultDto): Observable<IPagedResult<IndustryDto>> {
+    return this.httpClient.get<IPagedResult<IndustryDto>>(environment.baseApi +
+      `/api/app/industry/choosen?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
+  }
+
   getListWithDetail(input: IPagedAndSortedResultDto): Observable<IPagedResult<IndustryDto>> {
     return this.httpClient.get<IPagedResult<IndustryDto>>(environment.baseApi +
       `/api/app/industry/with-details?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
@@ -41,5 +46,9 @@ export class IndustryService {
 
   delete(id: string): Observable<any> {
     return this.httpClient.delete(environment.baseApi + `/api/app/industry/${id}`);
+  }
+
+  updateChoosen(id: string, choosen: boolean): Observable<boolean> {
+    return this.httpClient.put<boolean>(environment.baseApi + `/api/app/industry/${id}/choosen?choosen=${choosen}`, null);
   }
 }

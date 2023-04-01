@@ -14,3 +14,8 @@ export enum NoteBookType{
   industry,
   stock
 }
+
+export enum BrokerType{
+  industry,
+  stock
+}

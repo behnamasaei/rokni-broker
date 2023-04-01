@@ -5,10 +5,11 @@ import { IndustryService } from '../settings/industry-setting/industry-modal/ind
 import { DialogService } from 'primeng/dynamicdialog';
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { StockDto } from '../Models/Stock';
-import { IPagedAndSortedResultDto, NoteBookType } from '../Models/CommonModels';
+import { BrokerType, IPagedAndSortedResultDto, NoteBookType } from '../Models/CommonModels';
 import { NotebookComponent } from '../Notebook/Notebook.component';
 import { MessageService } from 'primeng/api';
 import { StockServiceService } from '../settings/stock-setting/stock-service.service';
+import { ComponentBaseComponent } from '../Shared/ComponentBase/ComponentBase.component';
 
 @Component({
   selector: 'app-industry-page',
@@ -28,7 +29,8 @@ export class IndustryPageComponent implements OnInit {
     private industryService: IndustryService,
     private stockService: StockServiceService,
     private dialogService: DialogService,
-    private messageService: MessageService,) { }
+    private messageService: MessageService,) {
+  }
 
   ngOnInit(): void {
 
@@ -45,6 +47,24 @@ export class IndustryPageComponent implements OnInit {
       this.stocks = res.items;
       this.totalStockRecord = res.totalCount
     })
+  }
+
+  updateChoosenStock(id: string, choosen: boolean, stock: StockDto) {
+    this.stockService.updateChoosen(id, choosen).subscribe((result: boolean) => {
+      if (result === true) {
+        stock.choosen = !stock.choosen;
+        let index = this.stocks.findIndex(e => e.id === id);
+        this.stocks[index] = stock;
+      }
+    });
+  }
+
+  updateChoosenIndustry(id: string, choosen: boolean) {
+    this.industryService.updateChoosen(id, choosen).subscribe((result: boolean) => {
+      if (result === true) {
+        this.industry.choosen = !this.industry.choosen;
+      }
+    });
   }
 
   openFrameModal(link: string) {

@@ -84,6 +84,7 @@ export class StockModalComponent implements OnInit {
       sortNumber: this.form.get('sortNumber')?.value,
       stockNotebookId: (this.config.data) ? this.config.data.stockNotebookId : this.form.get('stockNotebookId')?.value,
       chartIndex: this.form.get('chartIndex')?.value,
+      choosen: (this.config.data.choosen) ? this.config.data.choosen : false
     }
 
     if (this.config.data) {

@@ -18,6 +18,7 @@ namespace RokniAppApi.StockModel
     public string TsetmcLink { get; set; }
     public string RahvardLink { get; set; }
     public string ShakhesbanLink { get; set; }
+    public bool Choosen {get; set;}
     
     public string ChartixLink { get; set; }
     public int SortNumber { get; set; }

@@ -18,6 +18,11 @@ export class StockServiceService {
       `/api/app/stock?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
   }
 
+  getChoosen(input: IPagedAndSortedResultDto): Observable<IPagedResult<StockDto>> {
+    return this.httpClient.get<IPagedResult<StockDto>>(environment.baseApi +
+      `/api/app/stock/choosen?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
+  }
+
   getSotckWithIndustryId(id: string | null, input: IPagedAndSortedResultDto): Observable<IPagedResult<StockDto>> {
     return this.httpClient.get<IPagedResult<StockDto>>(environment.baseApi +
       `/api/app/stock/${id}/stock-with-industry-id?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
@@ -43,5 +48,9 @@ export class StockServiceService {
 
   delete(id: string): Observable<any> {
     return this.httpClient.delete(environment.baseApi + `/api/app/stock/${id}`);
+  }
+
+  updateChoosen(id: string, choosen: boolean): Observable<boolean> {
+    return this.httpClient.put<boolean>(environment.baseApi + `/api/app/stock/${id}/choosen?choosen=${choosen}`, null);
   }
 }

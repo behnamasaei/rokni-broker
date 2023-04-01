@@ -74,6 +74,10 @@ export class AppComponent implements OnInit {
         items: industyMenu
       },
       {
+        label: 'برگزیده ها',
+        routerLink: ['/', 'choosen']
+      },
+      {
         label: 'تنظیمات',
         items: [
           [

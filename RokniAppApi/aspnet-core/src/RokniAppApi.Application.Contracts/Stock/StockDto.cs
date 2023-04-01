@@ -20,6 +20,7 @@ namespace RokniAppApi.Stock
     public string ChartIndex { get; set; }
     public string ChartixLink { get; set; }
     public int SortNumber { get; set; }
+    public bool Choosen {get; set;}
 
     public Guid StockNotebookId { get; set; }
     public virtual StockNotebookDto StockNotebook { get; set; }

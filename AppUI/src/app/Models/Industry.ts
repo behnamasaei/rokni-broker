@@ -15,6 +15,7 @@ export interface IndustryDto {
   chartixLink:string,
   sortNumber: number,
   industryNotebookId?: string,
+  choosen:boolean,
   industryNotebook: IndustryNotebookDto,
   stocks?: StockDto[]
 }
@@ -31,5 +32,6 @@ export interface IndustryCreateUpdateDto {
   shakhesbanLink: string,
   chartixLink:string,
   sortNumber: number,
+  choosen:boolean,
   industryNotebookId: string
 }

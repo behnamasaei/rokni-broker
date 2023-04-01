@@ -66,7 +66,8 @@ export class IndustryModalComponent implements OnInit {
       sortNumber: this.form.get('sortNumber')?.value,
       chartIndex: this.form.get('chartIndex')?.value,
       chartixLink: this.form.get('chartixLink')?.value,
-      industryNotebookId: (this.config.data) ? this.config.data.industryNotebookId : '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+      industryNotebookId: (this.config.data) ? this.config.data.industryNotebookId : '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      choosen: (this.config.data.choosen) ? this.config.data.choosen : false
     }
     if (this.config.data) {
       this.service.put(industry).subscribe(res => {

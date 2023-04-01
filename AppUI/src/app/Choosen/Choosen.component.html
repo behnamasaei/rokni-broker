@@ -1,0 +1,189 @@
+<p-accordion [multiple]="true" class="mt-5">
+  <p-accordionTab header="صنایع برگزیده">
+    <div class="container-fluid">
+
+      <div class="row">
+
+        <div class="col-6 mt-3" *ngFor="let industry of industries.items">
+          <p-panel [header]="industry.name" [toggleable]="true">
+            <ng-template pTemplate="icons" class="header-panel">
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/rahavard.png" class="header-panel-img" pTooltip="رهاورد" tooltipPosition="bottom"
+                  (click)="openFrameModal(industry.rahvardLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/chartsaz.png" class="header-panel-img" pTooltip="چارت ساز"
+                  tooltipPosition="bottom" (click)="openFrameModal(industry.chartsazLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/codal-32x32.png" class="header-panel-img" pTooltip="کدال"
+                  tooltipPosition="bottom" (click)="openFrameModal(industry.codalLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/tablokhani.png" class="header-panel-img" pTooltip="تابلوخوانی"
+                  tooltipPosition="bottom" (click)="openFrameModal(industry.tablokhaniLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/tsetmc.png" class="header-panel-img" pTooltip="tsetmc" tooltipPosition="bottom"
+                  (click)="openFrameModal(industry.tsetmcLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/shakhesban.jpg" class="header-panel-img" pTooltip="شاخص بان"
+                  tooltipPosition="bottom" (click)="openFrameModal(industry.shakhesbanLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/chartix.png" class="header-panel-img" pTooltip="چارتیکس" tooltipPosition="bottom"
+                  (click)="openFrameModal(industry.chartixLink)">
+              </button>
+
+              <button pButton pButton pRipple icon="pi pi-book" class="p-panel-header-icon p-link p-button-rounded"
+                tooltipPosition="bottom" pTooltip="یادداشت" (click)="industryNoteBook(industry)">
+              </button>
+
+
+              <button pButton pButton pRipple icon="pi pi-bookmark"
+                *ngIf="(industry.industryNotebook.note === ''|| industry.industryNotebook.note === null);else bookmarkFill"
+                class="p-panel-header-icon p-link p-button-rounded" tooltipPosition="bottom" pTooltip="نشان گذاری"
+                (click)="industryNoteBook(industry)">
+              </button>
+
+              <ng-template #bookmarkFill>
+                <button pButton pButton pRipple icon="pi pi-bookmark-fill"
+                  class="p-panel-header-icon p-link p-button-rounded" tooltipPosition="bottom" pTooltip="نشان گذاری"
+                  (click)="industryNoteBook(industry)">
+                </button>
+              </ng-template>
+
+
+              <button pButton pButton pRipple icon="pi pi-arrow-left"
+                class="p-panel-header-icon p-link p-button-rounded" tooltipPosition="bottom" pTooltip="برو به صنعت"
+                [routerLink]="['/','industry',industry.id]">
+              </button>
+
+              <button pButton pButton pRipple icon="pi pi-star" *ngIf="(industry.choosen === false);else choosenFill"
+                class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom"
+                pTooltip="برگزیدن" (click)="updateChoosenIndustry(industry.id , true ,industry )">
+              </button>
+
+              <ng-template #choosenFill>
+                <button pButton pButton pRipple icon="pi pi-star-fill"
+                  class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom"
+                  pTooltip="حذف برگزیده" (click)="updateChoosenIndustry(industry.id , false,industry)">
+                </button>
+              </ng-template>
+            </ng-template>
+
+            <object width="100%" height="500px" [data]="industry.chartIndex | safaIframe">
+              <iframe [src]="industry.chartIndex | safaIframe" width="100%" height="500px"></iframe>
+            </object>
+          </p-panel>
+        </div>
+
+      </div>
+
+      <p-paginator [rows]="4" [totalRecords]="industries.totalCount" [rowsPerPageOptions]="[4, 6 ,10,30,50,100]"
+        (onPageChange)="paginateIndustry($event)"></p-paginator>
+    </div>
+  </p-accordionTab>
+
+
+  <p-accordionTab header="سهام برگزیده">
+    <div class="container-fluid">
+
+      <div class="row">
+
+        <div class="col-6 mt-3" *ngFor="let stock of stocks.items">
+          <p-panel [header]="stock.name" [toggleable]="true">
+            <ng-template pTemplate="icons" class="header-panel">
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/rahavard.png" class="header-panel-img" pTooltip="رهاورد" tooltipPosition="bottom"
+                  (click)="openFrameModal(stock.rahvardLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/chartsaz.png" class="header-panel-img" pTooltip="چارت ساز"
+                  tooltipPosition="bottom" (click)="openFrameModal(stock.chartsazLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/codal-32x32.png" class="header-panel-img" pTooltip="کدال"
+                  tooltipPosition="bottom" (click)="openFrameModal(stock.codalLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/tablokhani.png" class="header-panel-img" pTooltip="تابلوخوانی"
+                  tooltipPosition="bottom" (click)="openFrameModal(stock.tablokhaniLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/tsetmc.png" class="header-panel-img" pTooltip="tsetmc" tooltipPosition="bottom"
+                  (click)="openFrameModal(stock.tsetmcLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/shakhesban.jpg" class="header-panel-img" pTooltip="شاخص بان"
+                  tooltipPosition="bottom" (click)="openFrameModal(stock.shakhesbanLink)">
+              </button>
+
+              <button pButton class="p-panel-header-icon p-link">
+                <img src="../../assets/chartix.png" class="header-panel-img" pTooltip="چارتیکس" tooltipPosition="bottom"
+                  (click)="openFrameModal(stock.chartixLink)">
+              </button>
+
+              <button pButton pButton pRipple icon="pi pi-book" class="p-panel-header-icon p-link p-button-rounded"
+                tooltipPosition="bottom" pTooltip="یادداشت" (click)="noteBookStock(stock)">
+              </button>
+
+
+              <button pButton pButton pRipple icon="pi pi-bookmark"
+                *ngIf="(stock.stockNotebook.note === ''|| stock.stockNotebook.note === null);else bookmarkStockFill"
+                class="p-panel-header-icon p-link p-button-rounded" tooltipPosition="bottom" pTooltip="نشان گذاری"
+                (click)="noteBookStock(stock)">
+              </button>
+
+              <ng-template #bookmarkStockFill>
+                <button pButton pButton pRipple icon="pi pi-bookmark-fill"
+                  class="p-panel-header-icon p-link p-button-rounded" tooltipPosition="bottom" pTooltip="نشان گذاری"
+                  (click)="noteBookStock(stock)">
+                </button>
+              </ng-template>
+
+
+              <!-- <button pButton pButton pRipple icon="pi pi-arrow-left" class="p-panel-header-icon p-link p-button-rounded"
+                tooltipPosition="bottom" pTooltip="برو به صنعت" [routerLink]="['/','industry',stock.id]">
+              </button> -->
+
+              <button pButton pButton pRipple icon="pi pi-star" *ngIf="(stock.choosen === false);else choosenStockFill"
+                class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom"
+                pTooltip="برگزیدن" (click)="updateChoosenStock(stock.id , true ,stock )">
+              </button>
+
+              <ng-template #choosenStockFill>
+                <button pButton pButton pRipple icon="pi pi-star-fill"
+                  class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom"
+                  pTooltip="حذف برگزیده" (click)="updateChoosenStock(stock.id , false,stock)">
+                </button>
+              </ng-template>
+            </ng-template>
+
+            <object width="100%" height="500px" [data]="stock.chartIndex | safaIframe">
+              <iframe [src]="stock.chartIndex | safaIframe" width="100%" height="500px"></iframe>
+            </object>
+          </p-panel>
+        </div>
+        <p-paginator [rows]="4" [totalRecords]="stocks.totalCount" [rowsPerPageOptions]="[4, 6 ,10,30,50,100]"
+        (onPageChange)="paginateStock($event)"></p-paginator>
+      </div>
+
+     
+    </div>
+  </p-accordionTab>
+</p-accordion>

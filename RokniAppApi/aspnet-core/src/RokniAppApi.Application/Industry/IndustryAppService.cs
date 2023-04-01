@@ -35,6 +35,20 @@ namespace RokniAppApi.Industry
       return ObjectMapper.Map<IndustryModel.Industry, IndustryDto>(resutl);
     }
 
+    public async Task<PagedResultDto<IndustryDto>> GetListChoosenAsync(PagedAndSortedResultRequestDto input)
+    {
+      var query = await _repository.WithDetailsAsync(e=>e.IndustryNotebook);
+      var industries = await AsyncExecuter.ToListAsync(query);
+      industries = industries.Where(e => e.Choosen == true).ToList();
+      var industryPaged = industries.OrderBy(e => e.SortNumber).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+      
+
+      var result = new PagedResultDto<IndustryDto>();
+      result.Items = ObjectMapper.Map<List<IndustryModel.Industry>, List<IndustryDto>>(industryPaged);
+      result.TotalCount = result.Items.Count;
+      return result;
+    }
+
     public override async Task<PagedResultDto<IndustryDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
       var query = await _repository.WithDetailsAsync();
@@ -47,6 +61,13 @@ namespace RokniAppApi.Industry
       return result;
     }
 
+    public async Task<bool> UpdateChoosenAsync(Guid id, bool choosen)
+    {
+      var entity = await _repository.FindAsync(e => e.Id == id);
+      entity.Choosen = choosen;
+      var result = _repository.UpdateAsync(entity, autoSave: true).IsCompletedSuccessfully;
+      return result;
+    }
 
     public async Task<PagedResultDto<IndustryDto>> GetListWithDetailsAsync(PagedAndSortedResultRequestDto input)
     {

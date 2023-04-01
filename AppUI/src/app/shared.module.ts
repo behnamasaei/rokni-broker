@@ -25,6 +25,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { PaginatorModule } from 'primeng/paginator';
 import {EditorModule} from 'primeng/editor';
+import { AccordionModule } from 'primeng/accordion';
 
 const PrimeModule = [
   TableModule,
@@ -49,7 +50,8 @@ const PrimeModule = [
   TooltipModule,
   MegaMenuModule,
   PaginatorModule,
-  EditorModule
+  EditorModule,
+  AccordionModule
 ]
 
 @NgModule({

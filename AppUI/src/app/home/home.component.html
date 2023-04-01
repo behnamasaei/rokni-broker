@@ -63,6 +63,17 @@
           <button pButton pButton pRipple icon="pi pi-arrow-left" class="p-panel-header-icon p-link p-button-rounded"
             tooltipPosition="bottom" pTooltip="برو به صنعت" [routerLink]="['/','industry',industry.id]">
           </button>
+
+          <button pButton pButton pRipple icon="pi pi-star" *ngIf="(industry.choosen === false);else choosenFill"
+            class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom" pTooltip="برگزیدن"
+            (click)="updateChoosenIndustry(industry.id , true ,industry )">
+          </button>
+
+          <ng-template #choosenFill>
+            <button pButton pButton pRipple icon="pi pi-star-fill" class="p-panel-header-icon p-link p-button-rounded choosen-class"
+              tooltipPosition="bottom" pTooltip="حذف برگزیده" (click)="updateChoosenIndustry(industry.id , false,industry)">
+            </button>
+          </ng-template>
         </ng-template>
 
         <object width="100%" height="500px" [data]="industry.chartIndex | safaIframe">

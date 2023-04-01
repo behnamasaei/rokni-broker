@@ -3,10 +3,12 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { IframeModalComponent } from '../iframe-modal/iframe-modal.component';
 import { IndustryService } from '../settings/industry-setting/industry-modal/industry.service';
 import { IndustryDto } from '../Models/Industry';
-import { IPagedAndSortedResultDto, NoteBookType } from '../Models/CommonModels';
+import { BrokerType, IPagedAndSortedResultDto, NoteBookType } from '../Models/CommonModels';
 import { NotebookComponent } from '../Notebook/Notebook.component';
 import { MessageService } from 'primeng/api';
 import { IndustryNotebookDto } from '../Models/Notebook';
+import { ComponentBaseComponent } from '../Shared/ComponentBase/ComponentBase.component';
+import { StockServiceService } from '../settings/stock-setting/stock-service.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -22,8 +24,10 @@ export class HomeComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private industryService: IndustryService,
+    private stockService: StockServiceService,
     private messageService: MessageService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.industryService.getListWithDetail(this.paged).subscribe(res => {
@@ -59,6 +63,16 @@ export class HomeComponent implements OnInit {
     this.industryService.getListWithDetail(this.paged).subscribe(res => {
       this.industries = res.items;
       this.totalIndustries = res.totalCount;
+    });
+  }
+
+  updateChoosenIndustry(id: string, choosen: boolean, industry: IndustryDto) {
+    this.industryService.updateChoosen(id, choosen).subscribe((result: boolean) => {
+      if (result) {
+        industry.choosen = !industry.choosen;
+        let index = this.industries.findIndex(e => e.id === id);
+        this.industries[index] = industry;
+      }
     });
   }
 
