@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using RokniAppApi.Domain.NoteModel;
@@ -71,6 +73,30 @@ IStockAppService
       return result;
     }
 
+
+    public async Task<PagedResultDto<StockDto>> GetListFiltredAsync(PagedAndSortedResultRequestDto input)
+    {
+      string pathFile = @"H:\Rokni-broker\rokni-broker\ScrapFilterTsetmc\SavedList.txt";
+      var logFile = File.ReadAllLines(pathFile);
+      var stockListTxt = new List<string>(logFile);
+
+      var query = await _stockRepository.WithDetailsAsync(e => e.StockNotebook);
+      var stocks = await AsyncExecuter.ToListAsync(query);
+
+      var filteredList = from s1 in stockListTxt
+                         join s2 in stocks on s1 equals s2.Name
+                         where (String.Compare(s1, s2.Name, CultureInfo.CurrentCulture, CompareOptions.IgnoreNonSpace) > -3) && (String.Compare(s1, s2.Name, CultureInfo.CurrentCulture, CompareOptions.IgnoreNonSpace) < 3)
+                         select s2;
+
+      var stockFilterd = filteredList.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+
+      var result = new PagedResultDto<StockDto>();
+      result.Items = ObjectMapper.Map<List<StockModel.Stock>, List<StockDto>>(stockFilterd);
+      result.TotalCount = stockFilterd.Count;
+      return result;
+    }
+
+
     public async Task<PagedResultDto<StockDto>> GetListWithDetailsAsync(PagedAndSortedResultRequestDto input,
     string? name)
     {
@@ -100,7 +126,7 @@ IStockAppService
 
     public async Task<PagedResultDto<StockDto>> GetListStockWithIndustryIdAsync(Guid id, PagedAndSortedResultRequestDto input)
     {
-      var queryable = await _stockRepository.GetQueryableAsync();
+      var queryable = await _stockRepository.WithDetailsAsync(e => e.StockNotebook);
       //Create a query
       var query = from stock in queryable
                   where stock.IndustryId == id

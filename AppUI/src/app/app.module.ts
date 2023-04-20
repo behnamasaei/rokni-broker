@@ -15,17 +15,19 @@ import { IframeModalComponent } from './iframe-modal/iframe-modal.component';
 import { IndustryPageComponent } from './industry-page/industry-page.component';
 import { NotebookComponent } from './Notebook/Notebook.component';
 import { ChoosenComponent } from './Choosen/Choosen.component';
+import { FiltredComponent } from './filtred/filtred.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     HomeComponent,
     IframeModalComponent,
     SafaIframePipe,
     IndustryPageComponent,
     NotebookComponent,
-      ChoosenComponent
-   ],
+    ChoosenComponent,
+    FiltredComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

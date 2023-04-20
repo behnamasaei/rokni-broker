@@ -18,6 +18,11 @@ export class StockServiceService {
       `/api/app/stock?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
   }
 
+  getFiltred(input: IPagedAndSortedResultDto): Observable<IPagedResult<StockDto>> {
+    return this.httpClient.get<IPagedResult<StockDto>>(environment.baseApi +
+      `/api/app/stock/filtred?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);
+  }
+
   getChoosen(input: IPagedAndSortedResultDto): Observable<IPagedResult<StockDto>> {
     return this.httpClient.get<IPagedResult<StockDto>>(environment.baseApi +
       `/api/app/stock/choosen?Sorting=${input.Sorting}&SkipCount=${input.SkipCount}&MaxResultCount=${input.MaxResultCount}`);

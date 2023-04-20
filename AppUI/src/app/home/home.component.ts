@@ -49,7 +49,6 @@ export class HomeComponent implements OnInit {
       }
     }).onClose.subscribe((res: IndustryNotebookDto) => {
       if (res) {
-        debugger
         let index = this.industries.findIndex(e => e.id === industry.id);
         this.industries[index].industryNotebook = res;
         this.messageService.add({ severity: 'success', detail: 'عملیات با موفقیت انجام شد' })

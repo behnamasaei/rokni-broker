@@ -19,13 +19,13 @@ public class Program
       var doc = new HtmlDocument();
 
       System.Console.WriteLine("Set your settings then press enter:");
-      Console.ReadKey();
+      // Console.ReadKey();
 
       doc.LoadHtml(driver.PageSource);
       var node = doc.DocumentNode.SelectNodes("//*[@id='main']")
                   .Select(x => x.ChildNodes.Select(x => x.ChildNodes[0].InnerText)).First().ToList();
 
-      using (TextWriter tw = new StreamWriter("./SavedList.txt"))
+      using (TextWriter tw = new StreamWriter("SavedList.txt"))
       {
         foreach (String s in node)
           tw.WriteLine(s);

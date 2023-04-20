@@ -111,8 +111,10 @@
           pTooltip="یادداشت" (click)="noteBookStock(stock)">
         </button>
 
+        
+
         <button pButton pButton pRipple icon="pi pi-bookmark"
-          *ngIf="(industry.industryNotebook.note === ''|| industry.industryNotebook.note === null);else bookmarkFill"
+          *ngIf="(stock.stockNotebook.note === ''|| stock.stockNotebook.note === null);else bookmarkFill"
           class="p-panel-header-icon p-link p-button-rounded" tooltipPosition="bottom" pTooltip="نشان گذاری"
           (click)="noteBookStock(stock)">
         </button>
@@ -123,6 +125,7 @@
           </button>
         </ng-template>
 
+        
         <button pButton pButton pRipple icon="pi pi-star" *ngIf="(stock.choosen === false);else choosenFill"
           class="p-panel-header-icon p-link p-button-rounded choosen-class" tooltipPosition="bottom" pTooltip="برگزیدن"
           (click)="updateChoosenStock(stock.id , true ,stock )">

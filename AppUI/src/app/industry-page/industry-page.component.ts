@@ -92,8 +92,9 @@ export class IndustryPageComponent implements OnInit {
         id: industry.id,
         noteBookId: industry.industryNotebookId
       }
-    }).onClose.subscribe((res: IndustryDto) => {
+    }).onClose.subscribe((res) => {
       if (res) {
+        this.industry.industryNotebook = res;
         this.messageService.add({ severity: 'success', detail: 'عملیات با موفقیت انجام شد' })
       }
     })
@@ -109,8 +110,10 @@ export class IndustryPageComponent implements OnInit {
         id: stock.id,
         noteBookId: stock.stockNotebookId
       }
-    }).onClose.subscribe((res: StockDto) => {
+    }).onClose.subscribe((res) => {
       if (res) {
+        let index = this.stocks.findIndex(e => e.id === stock.id);
+        this.stocks[index].stockNotebook = res;
         this.messageService.add({ severity: 'success', detail: 'عملیات با موفقیت انجام شد' })
       }
     })

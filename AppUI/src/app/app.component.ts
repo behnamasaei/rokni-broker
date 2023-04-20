@@ -78,6 +78,10 @@ export class AppComponent implements OnInit {
         routerLink: ['/', 'choosen']
       },
       {
+        label: 'فیلتر دیدبان',
+        routerLink: ['/', 'filtred']
+      },
+      {
         label: 'تنظیمات',
         items: [
           [

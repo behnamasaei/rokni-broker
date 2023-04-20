@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { IndustryPageComponent } from './industry-page/industry-page.component';
 import { ChoosenComponent } from './Choosen/Choosen.component';
+import { FiltredComponent } from './filtred/filtred.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
   {
     path: 'choosen',
     component: ChoosenComponent
+  },
+  {
+    path: 'filtred',
+    component: FiltredComponent
   },
   {
     path: 'settings',
